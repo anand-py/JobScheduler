@@ -1,12 +1,13 @@
 // middleware/authMiddleware.js
 
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+require('dotenv').config();
+const User = require('../model/user.models');
 
 // Middleware function to verify JWT token and authenticate user
-const authenticate = async (req, res, next) => {
+const verifyToken = async (req, res, next) => {
     // Extract JWT token from request headers
-    const token = req.header('Authorization');
+    const token = req.header["x-access-token"];
 
     // Check if token is provided
     if (!token) {
@@ -33,4 +34,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-module.exports = authenticate;
+module.exports = verifyToken; // Export the middleware function with the correct name

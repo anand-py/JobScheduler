@@ -1,22 +1,44 @@
 const mongoose = require('mongoose')
 
 const jobSchema = new mongoose.Schema({
-    userId : {
+    user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    type : {
-        type : String,
-        required : true
-    },
-    status :{
-        type : String,
-        required : true,
-        default : 'pending'
-    },
-    scheduleTime :{
-        
-    }
+        ref: 'User',
+        required: true
+      },
+      type: {
+        type: String,
+        required: true
+      },
+      scheduled_time: {
+        type: Date,
+        required: true
+      },
+      parameters: {
+        type: Object,
+        default: {}
+      },
+      status: {
+        type: String,
+        enum: ['pending', 'running', 'failed', 'successful'],
+        default: 'pending'
+      },
+      created_at: {
+        type: Date,
+        default: Date.now
+      },
+      logs: {
+        type: [String],
+        default: []
+      },
+      attempts: {
+        type: Number,
+        default: 0
+      },
+      max_attempts: {
+        type: Number,
+        default: 3
+      }
 })
 
 module.exports = mongoose.model('Job', jobSchema)

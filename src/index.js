@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 
+const userRoutes = require('../src/routes/user.routes')
+const jobsRoutes = require('../src/routes/job.routes')
 
 
 
@@ -11,7 +13,11 @@ const app = express()
 // Middleware to parse JSON bodies
 app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Used to parse URL-encoded bodies
+// app.use(bodyParser.json());
 
+
+app.use(userRoutes)
+app.use(jobsRoutes)
 
 
 // Connect to the database
@@ -24,10 +30,13 @@ db.once('open', () => {
     console.log('connected to db');
 });
 
+
+
+
 app.listen(process.env.PORT, (err) => {
     if(err) {
         console.log('Some error encountered');
     } else {
-        console.log('Server started ');
+        console.log('Server started');
     }
 });
