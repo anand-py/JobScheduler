@@ -16,6 +16,10 @@ exports.login = async (req, res) => {
         if (!isMatch) {
             return res.status(403).send({ message: "Invalid Password" });
         }
+         // Validate the format of the user ID
+         if (!mongoose.Types.ObjectId.isValid(user._id)) {
+            return res.status(400).send({ message: "Invalid User ID format" });
+        }
         
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
         
