@@ -1,9 +1,11 @@
 
 
 const Job = require('../model/job.models');
+const mongoose = require('mongoose');
 const userModels = require('../model/user.models');
 
-exports.createJob = async (req, res) => {
+
+exports.submitJob = async (req, res) => {
     try {
         const { user_id, type, scheduled_time, parameters } = req.body;
         
@@ -14,7 +16,7 @@ exports.createJob = async (req, res) => {
         const job = new Job({
             user_id: user_id,
             type: type,
-            scheduled_time: new Date(scheduled_time), // Convert scheduled_time to a Date object
+            scheduled_time: new Date(scheduled_time), 
             parameters: parameters
         });
 
@@ -30,57 +32,67 @@ exports.createJob = async (req, res) => {
 
 exports.getJobById = async(req,res)=>{
     try {
-        const job = await Job.findById(req.params._id);
+        const job = await Job.findById(req.params.job_id);
         console.log(job)
         if (!job) { 
           return res.status(404).json({ message: 'Job not found' });
         }
         res.status(200).json(job);
-      } catch (error) {
+      } catch (error) { 
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
       }
     };
 
-exports.updateJob = async(req,res)=>{
-    try{
-        const jobId = req.params.job_id;
-        const updates = req.body;
-        const options = { new : true }
-        const updatedJob = await Job.findByIdAndUpdate(jobId,updates,options) 
-        if(!updatedJob){
-            res.status(404).json({
-                message : "Job not found"
-            })
-        }
-        res.status(200).json({ 
-            message : "Job Update Successfully", 
-            job : updatedJob
-        })
-    }catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
 
-exports.deleteJob = async(req,res)=>{
+exports.recheduleJob = async (req, res) => {
+        const jobId = req.params.job_id;
+        const  { scheduled_time } = req.body;    
+        try {
+            const updatedJob = await Job.findByIdAndUpdate(jobId, { scheduled_time }, { new : true });
+            if (!updatedJob) {
+                return res.status(404).json({ message: 'Job not found' });
+            }
+    
+            console.log(updatedJob);
+            res.status(200).json({ message: 'Job rescheduled successfully', job: updatedJob });
+        } catch (error) {
+            console.error('Error updating job:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }   
+    };
+  
+
+exports.cancelJob = async(req,res)=>{
     try{
-        const job = await Job.findById(req.params.job_id);
+        const job = await Job.findByIdAndDelete(req.params.job_id);
         if(!job){
             res.status(404).json({ message : "Job not found"})
         }
-        await job.deleteOne({ _id : req.params.job_id });
-        res.status(200).json({ message : "Job deleted Successfully"})
+        res.status(200).json({ message : "Job canceled Successfully"})
     }catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
 
 exports.getAllJob = async(req,res)=>{
-    try {
-        // const jobs = await Job.find({ user_id: req.userId });  
-        const jobs = await Job.find(req.params._id); 
+    try { 
+        const jobs = await Job.find(); 
         res.status(200).json(jobs);
       } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    };
+
+exports.getJobStatus = async(req,res)=>{
+    try{ 
+        const job = await Job.findById(req.params.job_id)
+        if(!job){   
+            res.status(404).json({ message : "Job not found"})
+        }
+        res.status(200).json({ status : job.status})
+    } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
       }

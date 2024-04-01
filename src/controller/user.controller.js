@@ -1,6 +1,7 @@
 const User = require('../model/user.models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 exports.login = async (req, res) => {
     try {
