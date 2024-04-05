@@ -37,7 +37,14 @@ const jobSchema = new mongoose.Schema({
       },
       max_attempts: {
         type: Number,
-        default: 3
+        default: 2
+      },
+      isRecurring: {
+          type: Boolean,
+          default: false
+      },
+      cron_expression: {
+          type: String 
       }
 })
 
