@@ -1,7 +1,8 @@
 // src/utils/recurringJobUtils.js
-
+const nodemailer = require('nodemailer');
 const schedule = require('node-schedule');
 const Job = require('../model/job.models');
+require('dotenv').config()
 
 const scheduleRecurringJobs = async () => {
     try {
@@ -33,7 +34,6 @@ const executeJob = async (job) => {
     try {
         // Implement job execution logic here
         console.log(`Executing job: ${job._id}`);
-        // Update job status to 'running'
         job.status = 'running';
         await job.save();
         // throw new Error('Intentional error occurred during job execution');
@@ -43,6 +43,7 @@ const executeJob = async (job) => {
         // Update job status to 'successful' after execution
         job.status = 'successful';
         await job.save();
+        await sendNotificationEmail(job)
     } catch (error) {
         throw new Error(`Error executing job: ${error.message}`);
     }
@@ -62,11 +63,41 @@ const handleJobFailure = async (job) => {
             job.status = 'failed';
             await job.save();
             console.log(`Notifying user about job failure: ${job._id}`);
-            // Implement user notification logic here
+            
         }
     } catch (error) {
         console.error(`Error handling job failure: ${error}`);
         // Implement error handling logic, such as logging the error or notifying administrators
+    }
+};
+
+const sendNotificationEmail = async (job) => {
+    try {
+        // Create a nodemailer transporter
+        const transporter = nodemailer.createTransport({
+            service : 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure : false,
+            auth: {
+                user: process.env.USER,
+                pass: process.env.APP_PASSWORD,
+            }
+        });
+
+        // Setup email data
+        const mailOptions = {
+            from: process.env.USER,
+            to: 'aanand.py@gmail.com',
+            subject: `Job Failure: ${job._id}`,
+            text: `The job ${job._id} has failed after reaching maximum retry attempts.`,
+        };
+
+        // Send email
+        const info = await transporter.sendMail(mailOptions);
+        console.log(`Email notification sent: ${info.messageId}`);
+    } catch (error) {
+        console.error(`Error sending email notification: ${error.message}`);
     }
 };
 
