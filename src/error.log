@@ -1,0 +1,61 @@
+2024-04-09T21:24:00.006Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:24:00.010Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:24:00.025Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:24:00.026Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:25:00.014Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:25:00.015Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:25:00.022Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:25:00.024Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:37:00.020Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:37:00.024Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:37:00.036Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:37:00.037Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:38:00.013Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:38:00.016Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:38:00.027Z [ERROR]: Error executing job: Intentional error occurred during job execution
+2024-04-09T21:38:00.028Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:41:00.101Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:41:00.114Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:41:00.119Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:41:00.120Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:41:00.169Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:41:00.174Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:42:00.068Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:42:00.069Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:42:00.074Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:42:00.075Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:42:00.121Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:42:00.128Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:43:00.063Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:43:00.065Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:43:00.069Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:43:00.073Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:43:00.133Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:43:00.137Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:44:00.060Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:44:00.062Z [ERROR]: Job failed after reaching maximum retry attempts: 660dce94db7eddbd701c4fbd
+2024-04-09T21:44:00.067Z [ERROR]: Error executing job: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:44:00.070Z [ERROR]: Job failed after reaching maximum retry attempts: 660fd42c34eb70614710f1cf
+2024-04-09T21:44:00.116Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660dce94db7eddbd701c4fbd') }" on model "Job"
+2024-04-09T21:44:00.121Z [ERROR]: Error handling job failure: No document found for query "{ _id: new ObjectId('660fd42c34eb70614710f1cf') }" on model "Job"
+2024-04-09T21:44:53.328Z [ERROR]: Error scheduling jobs: Cannot create property 'Symbol(level)' on string 'Scheduling one-time job at: Tue Apr 09 2024 12:00:00 GMT+0530 (India Standard Time)'
+2024-04-09T21:46:23.868Z [ERROR]: Error scheduling jobs: Cannot create property 'Symbol(level)' on string 'Scheduling one-time job at: Wed Apr 10 2024 03:17:00 GMT+0530 (India Standard Time)'
+2024-04-09T21:47:52.835Z [ERROR]: Error scheduling jobs: Cannot create property 'Symbol(level)' on string 'Scheduling one-time job at: Wed Apr 10 2024 03:17:00 GMT+0530 (India Standard Time)'
+2024-04-09T21:49:31.916Z [ERROR]: Error scheduling jobs: Cannot create property 'Symbol(level)' on string 'Scheduling one-time job at: Wed Apr 10 2024 03:17:00 GMT+0530 (India Standard Time)'
+2024-04-09T21:51:42.608Z [ERROR]: Error scheduling jobs: Cannot create property 'Symbol(level)' on string 'Scheduling one-time job at: Wed Apr 10 2024 03:22:00 GMT+0530 (India Standard Time)'
+2024-04-09T21:56:00.002Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T21:56:00.004Z [ERROR]: Error executing one-time job: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T21:56:00.005Z [ERROR]: Error handling job failure: Cannot read properties of undefined (reading 'attempts')
+2024-04-09T21:58:00.007Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T21:58:00.009Z [ERROR]: Error executing one-time job: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T21:58:00.010Z [ERROR]: Error handling job failure: Cannot read properties of undefined (reading 'attempts')
+2024-04-09T21:59:00.015Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:01:00.002Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:01:00.004Z [ERROR]: Error executing one-time job: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:01:00.005Z [ERROR]: Error handling job failure: Cannot read properties of undefined (reading 'attempts')
+2024-04-09T22:04:00.009Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:04:00.011Z [ERROR]: Error executing one-time job: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:04:00.012Z [ERROR]: Error handling job failure: Cannot read properties of undefined (reading 'attempts')
+2024-04-09T22:10:00.015Z [ERROR]: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:10:00.018Z [ERROR]: Error executing one-time job: Error executing job: Cannot read properties of undefined (reading '_id')
+2024-04-09T22:10:00.020Z [ERROR]: Error handling job failure: Cannot read properties of undefined (reading 'attempts')
