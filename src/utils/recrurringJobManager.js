@@ -4,69 +4,167 @@ const Job = require('../model/job.models');
 const logger = require('../utils/logger');
 require('dotenv').config();
 
+
 // Function to schedule recurring jobs
 const scheduleRecurringJobs = async () => {
     try {
         const recurringJobs = await Job.find({ isRecurring: true });
 
-            recurringJobs.forEach(async (job) => {
+        recurringJobs.forEach(async (job) => {
+            try {
                 logger.info(job);
                 const { cron_expression } = job;
                 logger.info(`Scheduling job with cron expression: ${cron_expression}`);
                 schedule.scheduleJob(cron_expression, async () => {
                     try {
+                        job.status = 'pending'; // Set job status to 'pending' before execution
+                        await job.save();
                         await executeJob(job);
                     } catch (error) {
                         logger.error(`Error executing recurring job: ${error.message}`);
                         await handleJobFailure(job);
                     }
                 });
-            });
-        }
-    catch (error) {
-        logger.error(`Error scheduling jobs: ${error.message}`);
-    }
-
-}
-
-// Function to execute a job
-const executeJob = async (job) => {
-    try {
-        logger.info(`Executing job: ${job._id}`);
-        job.status = 'running';
-        await job.save();
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        logger.info(`Job executed successfully: ${job._id}`);
-        job.status = 'successful';
-        await job.save();
+            } catch (error) {
+                logger.error(`Error scheduling recurring job: ${error.message}`);
+            }
+        });
     } catch (error) {
-        logger.error(`Error executing job: ${error.message}`);
-        throw new Error(`Error executing job: ${error.message}`);
+        logger.error(`Error scheduling jobs: ${error.message}`);
     }
 };
 
-// Function to handle job failure and retries
-const handleJobFailure = async (job) => {
-    try {
-        if (job.attempts < job.max_attempts) {
-            job.attempts++;
+    const executeJob = async (job) => {
+        // Check if job status is 'running'
+        if (job.status === 'pending') {
+            logger.info(`Executing job: ${job._id}`);
+            // Set job status to 'running' before execution
             job.status = 'running';
             await job.save();
-            logger.info(`Retrying job: ${job._id}, Attempt: ${job.attempts}`);
-            await executeJob(job);
+
+            // Simulate job execution for 5 seconds (replace with actual execution logic)
+            // await new Promise((resolve) => setTimeout(resolve, 5000));
+
+            // logger.info(`Job executed successfully: ${job._id}`);
+            // // Set job status to 'successful' after execution
+            // job.status = 'successful';
+            // await job.save();
         } else {
-            logger.error(`Job failed after reaching maximum retry attempts: ${job._id}`);
+            logger.info(`Job ${job._id} is not in 'running' state. Skipping execution.`);
+            return; // Exit the function since job is not in 'running' state
+        }
+            // Check if the job failed to execute
+            if (job.status === 'running') {
+                // Set job status to 'failed' if execution failed
+                job.status = 'failed';
+                await job.save();
+                // Call handleJobFailure to handle the failure
+                await handleJobFailure(job);
+            } else {
+                // Job executed successfully
+                logger.info(`Failed Job executed successfully: ${job._id}`);
+                // Set job status to 'successful' after execution
+                job.status = 'successful';
+                await job.save();
+            }
+        
+    };
+
+
+const handleJobFailure = async (job) => {
+    try {
+        let attempts = 0;
+
+        while (attempts < job.max_attempts && job.status !== 'successful') {
+            attempts++;
+            logger.info(`Retrying job: ${job._id}, Attempt: ${attempts}`);
+            
+            try {
+                await executeJob(job);
+            } catch (error) {
+                logger.error(`Error executing job: ${error.message}`);
+            }
+
+            // Introduce a small delay after each attempt
+            await new Promise((resolve) => setTimeout(resolve, 5000)); // 1000 milliseconds = 1 second
+        }
+
+        if (job.status !== 'successful') {
             job.status = 'failed';
-            await job.save();
+            logger.error(`Job failed after reaching maximum retry attempts: ${job._id}`);
             logger.info(`Notifying user about job failure: ${job._id}`);
             await sendNotificationEmail(job);
+            await job.save(); // Save the job with the updated status
         }
     } catch (error) {
         logger.error(`Error handling job failure: ${error.message}`);
-        console.error(`Error handling job failure: ${error.message}`);
+        throw error;
     }
 };
 
+
+
+// Function to schedule a one-time job
+const scheduleOneTimeJob = async (job) => {
+    try {
+        logger.info(`Scheduling one-time job: ${job._id}`);
+        const scheduledTime = job.scheduled_time;
+        schedule.scheduleJob(scheduledTime, async () => {
+            try {
+                await executeOneTimeJob(job);
+            } catch (error) {
+                logger.error(`Error executing one-time job: ${error.message}`);
+                await handleOneTimeJobFailure(job);
+            }
+        });
+        logger.info(`One-time job scheduled successfully: ${job._id}`);
+    } catch (error) {
+        logger.error(`Error scheduling one-time job: ${error.message}`);
+    }
+};
+
+const executeOneTimeJob = async (job) => {
+    try {
+        logger.info(`Executing one-time job: ${job._id}`);
+        job.status = 'running';
+        await job.save();
+        // Simulate job execution for 5 seconds (replace with actual execution logic)
+        // await new Promise((resolve) => setTimeout(resolve, 5000));
+        // logger.info(`One-time job executed successfully: ${job._id}`);
+        // job.status = 'successful';
+        // await job.save();
+    } catch (error) {
+        logger.error(`Error executing one-time job: ${error.message}`);
+        // If execution fails, handle the failure
+        job.status = 'running'; // Set job status to 'running' if execution fails
+        await job.save();
+    }
+    
+    // Handle one-time job failure
+    try {
+        await handleOneTimeJobFailure(job);
+    } catch (handleError) {
+        logger.error(`Error handling one-time job failure: ${handleError.message}`);
+    }
+};
+
+
+const handleOneTimeJobFailure = async (job) => {
+    try {
+        logger.error(`One-time job failed: ${job._id}`);
+        // Handle the failure, e.g., send notification
+        // Set job status to 'failed'
+        job.status = 'failed';
+        await sendNotificationEmail(job);
+        await job.save();
+        // Add logic to send notification email or perform any other action
+    } catch (error) {
+        logger.error(`Error handling one-time job failure: ${error.message}`);
+    }
+};
+
+
+// Function to send notification email for job failure
 // Function to send notification email for job failure
 const sendNotificationEmail = async (job) => {
     try {
@@ -89,58 +187,12 @@ const sendNotificationEmail = async (job) => {
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log(`Email notification sent: ${info.messageId}`);
+        logger.info(`Email notification sent: ${info.messageId}`);
     } catch (error) {
-        console.error(`Error sending email notification: ${error.message}`);
+        logger.error(`Error sending email notification: ${error.message}`);
     }
 };
 
-const scheduleOneTimeJob = async () => {
-    try {
-        const jobs = await Job.find({ isRecurring: false });
-        if (jobs.length === 0) {
-            logger.info("No one-time jobs found.");
-            return;
-        }
-
-        for (const job of jobs) {
-            const specificTime = new Date('2024-04-11T17:02:00');
-            logger.info(`Scheduling one-time job at: ${specificTime}`);
-            schedule.scheduleJob(specificTime, async () => {
-                try {
-                    await executeOneTimeJob(job); // Pass the job object to the execute function
-                } catch (error) {
-                    logger.error(`Error executing one-time job: ${error.message}`);
-                    await handleOneTimeJobFailure(job); // Pass the job object to the failure handler
-                }
-            });
-        }
-    } catch (error) {
-        logger.error(`Error scheduling one-time jobs: ${error.message}`);
-    }
-};
-
-const executeOneTimeJob = async (job) => {
-    try {
-        // Perform the execution logic for the one-time job
-        logger.info(`Executing one-time job: ${job._id}`);
-        // Example: Sending an email
-        await sendEmail("One-time job executed successfully");
-    } catch (error) {
-        logger.error(`Error executing one-time job: ${error.message}`);
-        throw new Error(`Error executing one-time job: ${error.message}`);
-    }
-};
-
-const handleOneTimeJobFailure = async (job) => {
-    try {
-        // Handle the failure of the one-time job
-        logger.error(`One-time job failed: ${job._id}`);
-        // Example: Sending an email notification
-        await sendEmail("One-time job failed");
-    } catch (error) {
-        logger.error(`Error handling one-time job failure: ${error.message}`);
-    }
-};
 
 module.exports = { scheduleRecurringJobs, executeJob, handleJobFailure, sendNotificationEmail, handleOneTimeJobFailure, executeOneTimeJob, scheduleOneTimeJob };
+
