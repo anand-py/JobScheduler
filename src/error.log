@@ -2090,3 +2090,30 @@
 2024-04-22T21:22:45.742Z [ERROR]: Scheduled time must be in the future for one-time job
 2024-04-22T21:23:00.072Z [ERROR]: One-time job failed: 6626d52e4f259dbfdcea1e1c
 2024-04-22T21:25:00.069Z [ERROR]: One-time job failed: 6626d586fc9942bef53d0634
+2024-04-23T09:15:00.091Z [ERROR]: One-time job failed: 66277bd5f6ea3db1c80210e0
+2024-04-23T09:50:47.751Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T09:50:52.919Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T09:50:54.452Z [ERROR]: Error handling job failure: job.save is not a function
+2024-04-23T09:50:58.064Z [ERROR]: Error handling job failure: job.save is not a function
+2024-04-23T09:57:28.641Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T09:57:33.646Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T09:57:53.687Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T09:57:58.801Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:05:40.314Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:05:46.240Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:06:07.721Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:06:17.731Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:07:53.115Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:07:58.657Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:08:18.879Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:08:40.880Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:53:26.056Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:53:47.660Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:57:15.412Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T10:57:37.890Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:03:08.939Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:03:29.428Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:07:54.388Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:08:15.496Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:15:24.356Z [ERROR]: Job failed after reaching maximum retry attempts: testId
+2024-04-23T11:15:45.463Z [ERROR]: Job failed after reaching maximum retry attempts: testId

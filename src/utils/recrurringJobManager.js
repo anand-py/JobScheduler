@@ -43,12 +43,12 @@ const scheduleRecurringJobs = async () => {
             await job.save();
 
             // Simulate job execution for 5 seconds (replace with actual execution logic)
-            // await new Promise((resolve) => setTimeout(resolve, 5000));
+            await new Promise((resolve) => setTimeout(resolve, 5000));
 
-            // logger.info(`Job executed successfully: ${job._id}`);
-            // // Set job status to 'successful' after execution
-            // job.status = 'successful';
-            // await job.save();
+            logger.info(`Job executed successfully: ${job._id}`);
+            // Set job status to 'successful' after execution
+            job.status = 'successful';
+            await job.save();
         } else {
             logger.info(`Job ${job._id} is not in 'running' state. Skipping execution.`);
             return; // Exit the function since job is not in 'running' state
@@ -129,10 +129,10 @@ const executeOneTimeJob = async (job) => {
         job.status = 'running';
         await job.save();
         // Simulate job execution for 5 seconds (replace with actual execution logic)
-        // await new Promise((resolve) => setTimeout(resolve, 5000));
-        // logger.info(`One-time job executed successfully: ${job._id}`);
-        // job.status = 'successful';
-        // await job.save();
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        logger.info(`One-time job executed successfully: ${job._id}`);
+        job.status = 'successful';
+        await job.save();
     } catch (error) {
         logger.error(`Error executing one-time job: ${error.message}`);
         // If execution fails, handle the failure
@@ -165,34 +165,42 @@ const handleOneTimeJobFailure = async (job) => {
 
 
 // Function to send notification email for job failure
-// Function to send notification email for job failure
 const sendNotificationEmail = async (job) => {
-    try {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.USER,
-                pass: process.env.APP_PASSWORD,
-            }
-        });
+    return new Promise((resolve, reject) => {
+        try {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.USER,
+                    pass: process.env.APP_PASSWORD,
+                }
+            });
 
-        const mailOptions = {
-            from: process.env.USER,
-            to: 'aanand.py@gmail.com',
-            subject: `Job Failure: ${job._id}`,
-            text: `The job ${job._id} has failed after reaching maximum retry attempts.`,
-        };
+            const mailOptions = {
+                from: process.env.USER,
+                to: 'aanand.py@gmail.com',
+                subject: `Job Failure: ${job._id}`,
+                text: `The job ${job._id} has failed after reaching maximum retry attempts.`,
+            };
 
-        const info = await transporter.sendMail(mailOptions);
-        logger.info(`Email notification sent: ${info.messageId}`);
-    } catch (error) {
-        logger.error(`Error sending email notification: ${error.message}`);
-    }
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    logger.error(`Error sending email notification: ${error.message}`);
+                    reject(error);
+                } else {
+                    logger.info(`Email notification sent: ${info.messageId}`);
+                    resolve(info);
+                }
+            });
+        } catch (error) {
+            logger.error(`Error sending email notification: ${error.message}`);
+            reject(error);
+        }
+    });
 };
-
 
 module.exports = { scheduleRecurringJobs, executeJob, handleJobFailure, sendNotificationEmail, handleOneTimeJobFailure, executeOneTimeJob, scheduleOneTimeJob };
 
