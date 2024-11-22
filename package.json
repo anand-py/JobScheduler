@@ -16,7 +16,7 @@
     "gitignore": "^0.7.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
-    "node": "^18.20.0",
+    "node": "^18.20.2",
     "node-cron": "^3.0.3",
     "node-schedule": "^2.1.1",
     "nodemailer": "^6.9.14",
